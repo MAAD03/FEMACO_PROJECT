@@ -1,7 +1,6 @@
 package com.femaco.main.Entity.Ventas;
 
-import com.femaco.main.Entity.Seguridad.Auditoria;
 
-public class Cliente extends Auditoria {
+public class Cliente  {
     
 }

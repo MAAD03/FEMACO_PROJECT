@@ -1,7 +1,6 @@
 package com.femaco.main.Entity.Inventario;
 
-import com.femaco.main.Entity.Seguridad.Auditoria;
 
-public class AreaArticulo extends Auditoria {
+public class AreaArticulo  {
     
 }

@@ -120,7 +120,9 @@ CREATE TABLE IF NOT EXISTS `opcion` (
   CONSTRAINT `fk_opcion_menu` FOREIGN KEY (`IdMenu`) REFERENCES `menu`(`IdMenu`)
 ) ENGINE = InnoDB;
 
+
 CREATE TABLE IF NOT EXISTS `role_opcion` (
+  `IdRolOpcion` INT NOT NULL AUTO_INCREMENT,
   `IdRol` INT NOT NULL,
   `IdOpcion` INT NOT NULL,
   `Alta` TINYINT NOT NULL DEFAULT 0,
@@ -130,7 +132,8 @@ CREATE TABLE IF NOT EXISTS `role_opcion` (
   `UsuarioCreacion` INT NOT NULL,
   `FechaModif` DATETIME NOT NULL,
   `UsuarioModif` INT NOT NULL,
-  PRIMARY KEY (`IdRol`, `IdOpcion`),
+  PRIMARY KEY (`IdRolOpcion`),
+  UNIQUE INDEX `IdRol_IdOpcion_UNIQUE` (`IdRol`, `IdOpcion`),
   CONSTRAINT `fk_roleop_rol` FOREIGN KEY (`IdRol`) REFERENCES `rol`(`IdRol`),
   CONSTRAINT `fk_roleop_opcion` FOREIGN KEY (`IdOpcion`) REFERENCES `opcion`(`IdOpcion`)
 ) ENGINE = InnoDB;
