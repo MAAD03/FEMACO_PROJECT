@@ -1,5 +1,6 @@
 package com.femaco.main.Entity.Inventario;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -7,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -21,7 +23,12 @@ public class AjusteInventario  {
     @Column(name = "IdAjusteInventario")
     private Long idAjusteInventario;
 
-    
+    @Column(name = "CantidadAjuste", precision = 12, scale = 2)
+    private BigDecimal cantidadAjuste;
+
+    @Lob
+    @Column(name = "Motivo", columnDefinition = "TEXT")
+    private String motivo;
 
     @Column(name = "FechaCreacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
@@ -34,5 +41,11 @@ public class AjusteInventario  {
 
     @Column(name = "UsuarioModif", nullable = false)
     private Integer usuarioModif;
+
+    @Column(name = "IdArticulo")
+    private Long idArticulo;
+
+    @Column(name = "IdUsuario")
+    private Long idUsuario;  
     
 }
