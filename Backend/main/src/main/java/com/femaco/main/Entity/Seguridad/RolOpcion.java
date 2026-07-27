@@ -13,12 +13,12 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "RoleOpcion")
-public class RoleOpcion  {
+public class RolOpcion  {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdRoleOpcion")
-    private Long idRoleOpcion;  
+    @Column(name = "IdRolOpcion")
+    private Long idRolOpcion;  
 
     @Column(name = "Alta", nullable = false)
     private Boolean alta;

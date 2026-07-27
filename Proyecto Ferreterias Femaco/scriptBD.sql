@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `opcion` (
 ) ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS `role_opcion` (
+CREATE TABLE IF NOT EXISTS `rol_opcion` (
   `IdRolOpcion` INT NOT NULL AUTO_INCREMENT,
   `IdRol` INT NOT NULL,
   `IdOpcion` INT NOT NULL,
