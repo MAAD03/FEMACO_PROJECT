@@ -29,7 +29,6 @@ public class EstadoArticuloService {
         estadoArticulo.setIdEstadoArticulo(null); 
         estadoArticulo.setFechaCreacion(ahora);
         estadoArticulo.setFechaModif(ahora);
-        // usuarioCreacion viene del body; usuarioModif inicia igual al de creación
         estadoArticulo.setUsuarioModif(estadoArticulo.getUsuarioCreacion());
         return estadoArticuloRepository.save(estadoArticulo);
     }
