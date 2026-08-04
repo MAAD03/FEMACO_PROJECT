@@ -34,7 +34,7 @@ public class Pedido  {
     private String notasEntrega;
 
     @Column(name = "NumeroEntrega", nullable = false, length = 50)
-    private String nombre;
+    private String numeroEntrega;
 
     @Column(name = "FechaCreacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;

@@ -2,9 +2,12 @@ package com.femaco.main.Service.Inventario;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.femaco.main.Entity.Inventario.MovimientoInventario;
 import com.femaco.main.Repository.Inventario.MovimientoInventarioRepository;
 
+@Service
 public class MovimientoInventarioService {
 
     private final MovimientoInventarioRepository movimientoInventarioRepository;

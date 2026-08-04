@@ -1,5 +1,57 @@
 package com.femaco.main.Controller.Suministro;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.femaco.main.Entity.Suministro.OrdenCompraDetalle;
+import com.femaco.main.Service.Suministro.OrdenCompraDetalleService;
+
+@RestController
+@RequestMapping("/ordenCompraDetalle")
 public class OrdenCompraDetalleController {
+
+    private final OrdenCompraDetalleService ordenCompraService;
+
+    public OrdenCompraDetalleController(OrdenCompraDetalleService ordenCompraService) {
+        this.ordenCompraService = ordenCompraService;
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<List<OrdenCompraDetalle>> buscar() {
+        return ResponseEntity.ok(ordenCompraService.buscarTodos());
+    }
+
+    @PostMapping("/crear")
+    public ResponseEntity<OrdenCompraDetalle> crear(@RequestBody OrdenCompraDetalle ordenCompra) {
+        OrdenCompraDetalle creado = ordenCompraService.crear(ordenCompra);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+    }
+
+    @PutMapping("/editar/{idOrdenCompra}")
+    public ResponseEntity<OrdenCompraDetalle> editar(@PathVariable Long idOrdenCompra,
+                                                        @RequestBody OrdenCompraDetalle ordenCompra) {
+        return ordenCompraService.actualizar(idOrdenCompra, ordenCompra)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/eliminar/{idOrdenCompraDetalle}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long idOrdenCompraDetalle) {
+        boolean eliminado = ordenCompraService.eliminar(idOrdenCompraDetalle);
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
     
 }
