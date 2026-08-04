@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.femaco.main.Entity.Catalogo.EstadoUsuario;
 import com.femaco.main.Repository.Catalogo.EstadoUsuarioRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class EstadoUsuarioService {
@@ -40,7 +40,6 @@ public class EstadoUsuarioService {
             existente.setNombre(datosNuevos.getNombre());
             existente.setUsuarioModif(datosNuevos.getUsuarioModif());
             existente.setFechaModif(LocalDateTime.now());
-            // fechaCreacion y usuarioCreacion no se tocan
             return estadoUsuarioRepository.save(existente);
         });
     }

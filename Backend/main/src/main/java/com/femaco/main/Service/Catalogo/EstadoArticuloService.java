@@ -37,9 +37,9 @@ public class EstadoArticuloService {
     public Optional<EstadoArticulo> actualizar(Long idEstadoArticulo, EstadoArticulo datosNuevos) {
         return estadoArticuloRepository.findById(idEstadoArticulo).map(existente -> {
             existente.setNombre(datosNuevos.getNombre());
+
             existente.setUsuarioModif(datosNuevos.getUsuarioModif());
             existente.setFechaModif(LocalDateTime.now());
-            // fechaCreacion y usuarioCreacion no se tocan
             return estadoArticuloRepository.save(existente);
         });
     }

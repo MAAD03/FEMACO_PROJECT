@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.femaco.main.Entity.Catalogo.EstadoCliente;
 import com.femaco.main.Repository.Catalogo.EstadoClienteRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class EstadoClienteService {

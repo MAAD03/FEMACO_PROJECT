@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.femaco.main.Entity.Catalogo.EstadoProveedor;
 import com.femaco.main.Repository.Catalogo.EstadoProveedorRepository;
 
-import jakarta.transaction.Transactional;
 
 
 
@@ -42,7 +42,6 @@ public class EstadoProveedorService {
             existente.setNombre(datosNuevos.getNombre());
             existente.setUsuarioModif(datosNuevos.getUsuarioModif());
             existente.setFechaModif(LocalDateTime.now());
-            // fechaCreacion y usuarioCreacion no se tocan
             return estadoProveedorRepository.save(existente);
         });
     }

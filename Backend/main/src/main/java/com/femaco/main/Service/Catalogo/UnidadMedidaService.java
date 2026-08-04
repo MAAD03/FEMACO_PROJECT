@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.femaco.main.Entity.Catalogo.UnidadMedida;
 import com.femaco.main.Repository.Catalogo.UnidadMedidaRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class UnidadMedidaService {
@@ -41,7 +41,6 @@ public class UnidadMedidaService {
             existente.setAbreviatura(datosNuevos.getAbreviatura());
             existente.setUsuarioModif(datosNuevos.getUsuarioModif());
             existente.setFechaModif(LocalDateTime.now());
-            // fechaCreacion y usuarioCreacion no se tocan
             return unidadMedidaRepository.save(existente);
         });
     }
