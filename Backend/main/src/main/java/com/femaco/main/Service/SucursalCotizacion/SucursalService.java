@@ -39,6 +39,7 @@ public class SucursalService {
             existente.setNombre(datosNuevos.getNombre());
             existente.setDireccion(datosNuevos.getDireccion());
             existente.setIdEstadoSucursal(datosNuevos.getIdEstadoSucursal());
+            existente.setTelefono(datosNuevos.getTelefono());
 
             existente.setUsuarioModif(datosNuevos.getUsuarioModif());
             existente.setFechaModif(LocalDateTime.now());

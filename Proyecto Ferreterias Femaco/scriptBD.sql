@@ -2,6 +2,7 @@
 CREATE SCHEMA IF NOT EXISTS `femacodb` DEFAULT CHARACTER SET utf8mb4;
 USE `femacodb`;
 
+
 -- -----------------------------------------------------
 -- Tabla: bitacora
 -- -----------------------------------------------------
@@ -50,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
   `IdSucursal` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(150) NOT NULL,
   `Direccion` VARCHAR(255) NULL,
+  `Telefono` VARCHAR(45) NULL,
   `IdEstadoSucursal` INT NOT NULL,
   `FechaCreacion` DATETIME NOT NULL,
   `UsuarioCreacion` INT NOT NULL,
@@ -165,6 +167,8 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   CONSTRAINT `fk_usuario_sucursal` FOREIGN KEY (`IdSucursal`) REFERENCES `sucursal`(`IdSucursal`),
   CONSTRAINT `fk_usuario_rol` FOREIGN KEY (`IdRol`) REFERENCES `rol`(`IdRol`)
 ) ENGINE = InnoDB;
+
+
 
 -- -----------------------------------------------------
 -- Tablas de Artículos e Inventario
@@ -495,3 +499,101 @@ CREATE TABLE IF NOT EXISTS `detalle_cotizacion` (
   CONSTRAINT `fk_detalle_cot` FOREIGN KEY (`IdCotizacion`) REFERENCES `cotizacion`(`IdCotizacion`),
   CONSTRAINT `fk_detalle_art` FOREIGN KEY (`IdArticulo`) REFERENCES `articulo`(`IdArticulo`)
 ) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- DATOS INICIALES - CATÁLOGOS Y ADMIN
+-- -----------------------------------------------------
+
+-- 1. estado_usuario
+INSERT INTO `estado_usuario` 
+(`IdEstadoUsuario`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Activo', NOW(), 1, NOW(), 1),
+(2, 'Inactivo', NOW(), 1, NOW(), 1),
+(3, 'Bloqueado', NOW(), 1, NOW(), 1);
+
+-- 2. estado_sucursal
+INSERT INTO `estado_sucursal` 
+(`IdEstadoSucursal`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Activo', NOW(), 1, NOW(), 1),
+(2, 'Inactivo', NOW(), 1, NOW(), 1);
+
+-- 3. genero
+INSERT INTO `genero` 
+(`IdGenero`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Masculino', NOW(), 1, NOW(), 1),
+(2, 'Femenino', NOW(), 1, NOW(), 1),
+(3, 'Otro', NOW(), 1, NOW(), 1);
+
+-- 4. estado_articulo
+INSERT INTO `estado_articulo` 
+(`IdEstadoArticulo`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Activo', NOW(), 1, NOW(), 1),
+(2, 'Inactivo', NOW(), 1, NOW(), 1),
+(3, 'Descontinuado', NOW(), 1, NOW(), 1);
+
+-- 5. estado_proveedor
+INSERT INTO `estado_proveedor` 
+(`IdEstadoProveedor`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Activo', NOW(), 1, NOW(), 1),
+(2, 'Inactivo', NOW(), 1, NOW(), 1);
+
+-- 6. estado_orden_compra
+INSERT INTO `estado_orden_compra` 
+(`IdEstadoOrdenCompra`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Pendiente', NOW(), 1, NOW(), 1),
+(2, 'Aprobada', NOW(), 1, NOW(), 1),
+(3, 'Parcialmente recibida', NOW(), 1, NOW(), 1),
+(4, 'Pospuesta', NOW(), 1, NOW(), 1),
+(5, 'Cancelada', NOW(), 1, NOW(), 1),
+(6, 'Finalizada', NOW(), 1, NOW(), 1);
+
+-- 7. estado_cliente
+INSERT INTO `estado_cliente` 
+(`IdEstadoCliente`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Activo', NOW(), 1, NOW(), 1),
+(2, 'Inactivo', NOW(), 1, NOW(), 1);
+
+-- 8. estado_venta
+INSERT INTO `estado_venta` 
+(`IdEstadoVenta`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Completada', NOW(), 1, NOW(), 1),
+(2, 'Anulada', NOW(), 1, NOW(), 1);
+
+-- 9. estado_pedido
+INSERT INTO `estado_pedido` 
+(`IdEstadoPedido`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Pendiente', NOW(), 1, NOW(), 1),
+(2, 'Entregado', NOW(), 1, NOW(), 1),
+(3, 'Cancelado', NOW(), 1, NOW(), 1),
+(4, 'Entrega Parcial', NOW(), 1, NOW(), 1);
+
+-- 10. rol (Administrador)
+INSERT INTO `rol` 
+(`IdRol`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Administrador', NOW(), 1, NOW(), 1);
+
+-- 11. sucursal (depende de estado_sucursal)
+INSERT INTO `sucursal` 
+(`IdSucursal`, `Nombre`, `Direccion`, `Telefono`, `IdEstadoSucursal`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Sucursal Femaco', 'Direccion 123', '1234-5678', 1, NOW(), 1, NOW(), 1);
+
+ -- 12. usuario (Administrador) - password: Admin2026+
+INSERT INTO `usuario` 
+(`IdUsuario`, `Nombre`, `Apellido`, `Password`, `CorreoElectronico`, `RequiereCambioPassword`, 
+ `Pregunta`, `Respuesta`, `IdGenero`, `IdEstadoUsuario`, `IdSucursal`, `IdRol`, 
+ `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
+VALUES
+(1, 'Admin', 'Sistema', '$2y$10$8MbTCB/6rl4VfDgfUEMa8OQmZ3PVhnZBtIRm0tj3DYCXXUyAzTi4e', 
+ 'administrador@femaco.com', 0, NULL, NULL, 1, 1, 1, 1, NOW(), 1, NOW(), 1);
+ 

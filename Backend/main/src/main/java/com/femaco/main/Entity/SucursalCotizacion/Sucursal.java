@@ -26,6 +26,9 @@ public class Sucursal {
     @Column(name = "Direccion", nullable = false, length = 250)
     private String direccion;
 
+    @Column(name = "Telefono", nullable = true, length = 45)
+    private String telefono;
+
     @Column(name = "FechaCreacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
 

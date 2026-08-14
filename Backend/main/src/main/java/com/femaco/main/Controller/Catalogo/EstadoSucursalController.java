@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.femaco.main.Service.Catalogo.EstadoSucursalService;
 import com.femaco.main.Entity.Catalogo.EstadoSucursal;
+import com.femaco.main.Service.Catalogo.EstadoSucursalService;
 
 @RestController
 @RequestMapping("/estadoSucursal")
