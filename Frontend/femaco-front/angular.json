@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "2ebbe72c-6bbc-41e5-8754-d86b9b7cdbd5"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -25,8 +26,8 @@
               }
             ],
             "styles": [
-              "src/styles.css"
-            ]
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"]
           },
           "configurations": {
             "production": {
@@ -50,7 +51,7 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
