@@ -7,6 +7,7 @@ export const routes: Routes = [
     { path: 'modulo', loadComponent: () => import('./components/Seguridad/modulo/modulo').then(m => m.Modulo) },
     { path: 'rol', loadComponent: () => import('./components/Seguridad/rol/rol').then(m => m.Rol) },
     { path: 'opcion', loadComponent: () => import('./components/Seguridad/opcion/opcion').then(m => m.Opcion) },
-    { path: 'rol-opcion', loadComponent: () => import('./components/Seguridad/rol-opcion/rol-opcion').then(m => m.RolOpcion) }
+    { path: 'rol-opcion', loadComponent: () => import('./components/Seguridad/rol-opcion/rol-opcion').then(m => m.RolOpcion) },
+    { path: 'dashboard' ,loadComponent: () => import('./components/Seguridad/dashboard/dashboard').then(m => m.Dashboard)}
 
 ];
