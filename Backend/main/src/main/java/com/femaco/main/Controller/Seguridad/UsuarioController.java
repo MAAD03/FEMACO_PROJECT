@@ -31,6 +31,17 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.buscarTodos());
     }
 
+    @GetMapping("/buscar/{idUsuario}")
+    public ResponseEntity<UsuarioResumen> buscarPorId(@PathVariable Long idUsuario) {
+        return usuarioService.buscarPorId(idUsuario)
+                .map(usuario -> ResponseEntity.ok(new UsuarioResumen(
+                        usuario.getIdUsuario(),
+                        usuario.getNombre(),
+                        usuario.getApellido(),
+                        usuario.getCorreoElectronico())))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/crear")
     public ResponseEntity<Usuario> crear(@RequestBody Usuario usuario) {
         Usuario creado = usuarioService.crear(usuario);
@@ -52,6 +63,13 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
+    }
+
+    public record UsuarioResumen(
+            Long idUsuario,
+            String nombre,
+            String apellido,
+            String correoElectronico) {
     }
     
 }

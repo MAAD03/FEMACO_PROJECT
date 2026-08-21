@@ -26,6 +26,10 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    public Optional<Usuario> buscarPorId(Long idUsuario) {
+        return usuarioRepository.findById(idUsuario);
+    }
+
     @Transactional
     public boolean eliminar(Long idUsuario) {
         if (!usuarioRepository.existsById(idUsuario)) {
