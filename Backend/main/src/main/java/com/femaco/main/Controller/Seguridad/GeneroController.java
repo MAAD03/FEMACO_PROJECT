@@ -2,14 +2,8 @@ package com.femaco.main.Controller.Seguridad;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +25,7 @@ public class GeneroController {
         return ResponseEntity.ok(generoService.buscarTodos());
     }
 
+    /* 
     @PostMapping("/crear")
     public ResponseEntity<Genero> crear(@RequestBody Genero genero) {
         Genero creado = generoService.crear(genero);
@@ -53,5 +48,6 @@ public class GeneroController {
         }
         return ResponseEntity.noContent().build();
     }
+        */
     
 }

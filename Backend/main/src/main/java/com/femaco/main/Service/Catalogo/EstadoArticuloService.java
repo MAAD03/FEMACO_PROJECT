@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.femaco.main.Entity.Catalogo.EstadoArticulo;
 import com.femaco.main.Repository.Catalogo.EstadoArticuloRepository;
+
 
 @Service
 public class EstadoArticuloService {
@@ -19,6 +21,7 @@ public class EstadoArticuloService {
         this.estadoArticuloRepository = estadoArticuloRepository;
     }
 
+    @Cacheable("estadoArticulo")
     public List<EstadoArticulo> buscarTodos() {
         return estadoArticuloRepository.findAll();
     }

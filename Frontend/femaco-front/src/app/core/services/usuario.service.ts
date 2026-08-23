@@ -18,10 +18,6 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(`${this.api}/buscar`);
   }
 
-  buscarPorId(idUsuario: number): Observable<UsuarioResumen> {
-    return this.http.get<UsuarioResumen>(`${this.api}/buscar/${idUsuario}`);
-  }
-
   crear(usuario: Usuario): Observable<Usuario> {
     return this.http.post<Usuario>(`${this.api}/crear`, usuario);
   }
