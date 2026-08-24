@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap, map, shareReplay } from 'rxjs';
 import { API_BASE_URL } from '../config/api.config';
-import { Usuario, UsuarioResumen } from '../models/usuario.model';
+import { Usuario } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
