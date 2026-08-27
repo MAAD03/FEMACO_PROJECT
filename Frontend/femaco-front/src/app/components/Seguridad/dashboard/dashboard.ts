@@ -8,9 +8,4 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
-  private readonly authService = inject(AuthService);
-
-  logout(): void {
-    this.authService.logout();
-  }
 }

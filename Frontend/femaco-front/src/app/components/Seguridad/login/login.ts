@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { LoginRequest } from '../../../core/models/auth.model';
+import { ConjuntoMenuService } from '../../../core/services/conjunto-menu.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private conjuntoMenuService = inject(ConjuntoMenuService);
 
   loginForm: FormGroup = this.fb.group({
     correoElectronico: ['', [Validators.required, Validators.email]],
@@ -36,8 +38,18 @@ export class Login {
 
     this.authService.login(credentials).subscribe({
       next: () => {
-        this.isLoading = false;
-        this.router.navigate(['/dashboard']);
+        // Después de login exitoso → cargamos el menú
+        this.conjuntoMenuService.cargarMenu().subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.router.navigate(['/dashboard']);
+          },
+          error: () => {
+            this.isLoading = false;
+            this.errorMessage = 'Error al cargar el menú. Intenta de nuevo.';
+            this.authService.logout();
+          }
+        });
       },
       error: (err) => {
         this.isLoading = false;

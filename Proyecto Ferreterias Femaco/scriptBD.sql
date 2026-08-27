@@ -2,7 +2,6 @@
 CREATE SCHEMA IF NOT EXISTS `femacodb` DEFAULT CHARACTER SET utf8mb4;
 USE `femacodb`;
 
-
 -- -----------------------------------------------------
 -- Tabla: bitacora
 -- -----------------------------------------------------
@@ -576,19 +575,121 @@ VALUES
 (3, 'Cancelado', NOW(), 1, NOW(), 1),
 (4, 'Entrega Parcial', NOW(), 1, NOW(), 1);
 
--- 10. rol (Administrador)
-INSERT INTO `rol` 
-(`IdRol`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
-VALUES
-(1, 'Administrador', NOW(), 1, NOW(), 1);
-
--- 11. sucursal (depende de estado_sucursal)
+-- 10. sucursal (depende de estado_sucursal)
 INSERT INTO `sucursal` 
 (`IdSucursal`, `Nombre`, `Direccion`, `Telefono`, `IdEstadoSucursal`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`) 
 VALUES
 (1, 'Sucursal Femaco', 'Direccion 123', '1234-5678', 1, NOW(), 1, NOW(), 1);
 
- -- 12. usuario (Administrador) - password: Admin2026+
+
+-- =====================================================
+-- 11. INSERTS PARA SUPER USUARIO
+-- =====================================================
+
+-- 1. ROL
+INSERT INTO `rol` (`IdRol`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`)
+VALUES
+(1, 'Super Usuario', NOW(), 1, NOW(), 1);
+
+-- 2. MÓDULOS
+INSERT INTO `modulo` (`IdModulo`, `Nombre`, `OrdenMenu`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`)
+VALUES
+(1, 'Seguridad', 1, NOW(), 1, NOW(), 1),
+(2, 'Catálogo', 2, NOW(), 1, NOW(), 1),
+(3, 'Inventario', 3, NOW(), 1, NOW(), 1),
+(4, 'Sucursales y Cotizaciones', 4, NOW(), 1, NOW(), 1),
+(5, 'Suministro', 5, NOW(), 1, NOW(), 1),
+(6, 'Ventas', 6, NOW(), 1, NOW(), 1);
+
+-- 3. MENÚS
+INSERT INTO `menu` (`IdMenu`, `Nombre`, `OrdenMenu`, `IdModulo`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`)
+VALUES
+-- Seguridad
+(1, 'Dashboard', 1, 1, NOW(), 1, NOW(), 1),
+(2, 'Configuración de Seguridad', 2, 1, NOW(), 1, NOW(), 1),
+(3, 'Usuarios y Catálogos Seguridad', 3, 1, NOW(), 1, NOW(), 1),
+
+-- Catálogo
+(4, 'Catálogos Generales', 1, 2, NOW(), 1, NOW(), 1),
+
+-- Inventario
+(5, 'Artículos e Inventario', 1, 3, NOW(), 1, NOW(), 1),
+
+-- Sucursales y Cotizaciones
+(6, 'Sucursales y Cotizaciones', 1, 4, NOW(), 1, NOW(), 1),
+
+-- Suministro
+(7, 'Compras y Proveedores', 1, 5, NOW(), 1, NOW(), 1),
+
+-- Ventas
+(8, 'Clientes y Ventas', 1, 6, NOW(), 1, NOW(), 1);
+
+-- 4. OPCIONES (Pagina = path exacto )
+INSERT INTO `opcion` (`IdOpcion`, `Nombre`, `OrdenMenu`, `Pagina`, `IdMenu`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`)
+VALUES
+-- Dashboard
+(1, 'Dashboard', 1, 'dashboard', 1, NOW(), 1, NOW(), 1),
+
+-- Configuración de Seguridad
+(2, 'Módulos', 1, 'modulo', 2, NOW(), 1, NOW(), 1),
+(3, 'Menús', 2, 'menu', 2, NOW(), 1, NOW(), 1),
+(4, 'Opciones', 3, 'opcion', 2, NOW(), 1, NOW(), 1),
+(5, 'Roles', 4, 'rol', 2, NOW(), 1, NOW(), 1),
+(6, 'Roles - Opciones', 5, 'rol-opcion', 2, NOW(), 1, NOW(), 1),
+
+-- Usuarios y Catálogos Seguridad
+(7, 'Usuarios', 1, 'usuario', 3, NOW(), 1, NOW(), 1),
+(8, 'Géneros', 2, 'genero', 3, NOW(), 1, NOW(), 1),
+
+-- Catálogo
+(9, 'Unidades de Medida', 1, 'unidad-medida', 4, NOW(), 1, NOW(), 1),
+
+-- Inventario
+(10, 'Artículos', 1, 'articulo', 5, NOW(), 1, NOW(), 1),
+(11, 'Áreas de Artículo', 2, 'area-articulo', 5, NOW(), 1, NOW(), 1),
+(12, 'Ajuste de Inventario', 3, 'ajuste-inventario', 5, NOW(), 1, NOW(), 1),
+(13, 'Movimientos de Inventario', 4, 'movimiento-inventario', 5, NOW(), 1, NOW(), 1),
+
+-- Sucursales y Cotizaciones
+(14, 'Sucursales', 1, 'sucursal', 6, NOW(), 1, NOW(), 1),
+(15, 'Sucursal - Artículos', 2, 'sucursal-articulo', 6, NOW(), 1, NOW(), 1),
+(16, 'Cotizaciones', 3, 'cotizacion', 6, NOW(), 1, NOW(), 1),
+
+-- Suministro
+(17, 'Proveedores', 1, 'proveedor', 7, NOW(), 1, NOW(), 1),
+(18, 'Órdenes de Compra', 2, 'orden-compra', 7, NOW(), 1, NOW(), 1),
+
+-- Ventas
+(19, 'Clientes', 1, 'cliente', 8, NOW(), 1, NOW(), 1),
+(20, 'Pedidos', 2, 'pedidos', 8, NOW(), 1, NOW(), 1),
+(21, 'Ventas', 3, 'ventas', 8, NOW(), 1, NOW(), 1);
+
+-- 5. ROL_OPCION (Super Usuario con TODOS los permisos: Alta, Baja y Cambio = 1)
+INSERT INTO `rol_opcion` (`IdRol`, `IdOpcion`, `Alta`, `Baja`, `Cambio`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`)
+VALUES
+(1, 1, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Dashboard
+(1, 2, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Módulos
+(1, 3, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Menús
+(1, 4, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Opciones
+(1, 5, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Roles
+(1, 6, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Roles - Opciones
+(1, 7, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Usuarios
+(1, 8, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Géneros
+(1, 9, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Unidades de Medida
+(1, 10, 1, 1, 1, NOW(), 1, NOW(), 1), -- Artículos
+(1, 11, 1, 1, 1, NOW(), 1, NOW(), 1), -- Áreas de Artículo
+(1, 12, 1, 1, 1, NOW(), 1, NOW(), 1), -- Ajuste de Inventario
+(1, 13, 1, 1, 1, NOW(), 1, NOW(), 1), -- Movimientos de Inventario
+(1, 14, 1, 1, 1, NOW(), 1, NOW(), 1), -- Sucursales
+(1, 15, 1, 1, 1, NOW(), 1, NOW(), 1), -- Sucursal - Artículos
+(1, 16, 1, 1, 1, NOW(), 1, NOW(), 1), -- Cotizaciones
+(1, 17, 1, 1, 1, NOW(), 1, NOW(), 1), -- Proveedores
+(1, 18, 1, 1, 1, NOW(), 1, NOW(), 1), -- Órdenes de Compra
+(1, 19, 1, 1, 1, NOW(), 1, NOW(), 1), -- Clientes
+(1, 20, 1, 1, 1, NOW(), 1, NOW(), 1), -- Pedidos
+(1, 21, 1, 1, 1, NOW(), 1, NOW(), 1); -- Ventas
+
+ -- 12. usuario (Super Administrador) - password: Admin2026+
 INSERT INTO `usuario` 
 (`IdUsuario`, `Nombre`, `Apellido`, `Password`, `CorreoElectronico`, `RequiereCambioPassword`, 
  `Pregunta`, `Respuesta`, `IdGenero`, `IdEstadoUsuario`, `IdSucursal`, `IdRol`, 
@@ -596,4 +697,5 @@ INSERT INTO `usuario`
 VALUES
 (1, 'Admin', 'Sistema', '$2y$10$8MbTCB/6rl4VfDgfUEMa8OQmZ3PVhnZBtIRm0tj3DYCXXUyAzTi4e', 
  'administrador@femaco.com', 0, NULL, NULL, 1, 1, 1, 1, NOW(), 1, NOW(), 1);
+ 
  
