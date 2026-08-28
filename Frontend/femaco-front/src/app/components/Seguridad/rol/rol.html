@@ -1,9 +1,7 @@
 <div class="crud-container">
 
-  <!-- Título -->
   <h2 class="crud-title">Roles</h2>
 
-  <!-- Mensajes -->
   @if (mensaje()) {
     <div class="alert alert-success">{{ mensaje() }}</div>
   }
@@ -11,49 +9,48 @@
     <div class="alert alert-error">{{ error() }}</div>
   }
 
-  <!-- Formulario -->
-  <div class="card form-card">
-    <h3 class="card-title">
-      {{ editando ? 'Editar Rol' : 'Nuevo Rol' }}
-    </h3>
+  @if (puedeCrear || (editando && puedeEditar)) {
+    <div class="card form-card">
+      <h3 class="card-title">
+        {{ editando ? 'Editar Rol' : 'Nuevo Rol' }}
+      </h3>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="crud-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="nombre">Nombre *</label>
-          <input
-            id="nombre"
-            type="text"
-            formControlName="nombre"
-            class="form-control"
-            placeholder="Nombre del Rol"
-            maxlength="100"
-          />
-          @if (f['nombre'].touched && f['nombre'].invalid) {
-            <div class="error-msg">
-              @if (f['nombre'].errors?.['required']) { El nombre es obligatorio }
-              @if (f['nombre'].errors?.['maxlength']) { Máximo 100 caracteres }
-            </div>
-          }
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="crud-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre *</label>
+            <input
+              id="nombre"
+              type="text"
+              formControlName="nombre"
+              class="form-control"
+              placeholder="Nombre del Rol"
+              maxlength="100"
+            />
+            @if (f['nombre'].touched && f['nombre'].invalid) {
+              <div class="error-msg">
+                @if (f['nombre'].errors?.['required']) { El nombre es obligatorio }
+                @if (f['nombre'].errors?.['maxlength']) { Máximo 100 caracteres }
+              </div>
+            }
+          </div>
         </div>
 
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary" [disabled]="cargando() || form.invalid">
-          {{ editando ? 'Actualizar' : 'Guardar' }}
-        </button>
-
-        @if (editando) {
-          <button type="button" class="btn btn-secondary" (click)="cancelar()">
-            Cancelar
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="cargando() || form.invalid">
+            {{ editando ? 'Actualizar' : 'Guardar' }}
           </button>
-        }
-      </div>
-    </form>
-  </div>
 
-  <!-- Tabla -->
+          @if (editando) {
+            <button type="button" class="btn btn-secondary" (click)="cancelar()">
+              Cancelar
+            </button>
+          }
+        </div>
+      </form>
+    </div>
+  }
+
   <div class="card table-card">
     <h3 class="card-title">Listado de Rols</h3>
 
@@ -81,16 +78,21 @@
                 <td>{{ item.idRol }}</td>
                 <td>{{ item.nombre }}</td>
                 <td>{{ item.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</td>
-                <td>{{ item.usuarioCreacion | userEmail}}</td>
+                <td>{{ item.usuarioCreacion | userEmail }}</td>
                 <td>{{ item.fechaModif | date:'dd/MM/yyyy HH:mm' }}</td>
-                <td>{{ item.usuarioModif | userEmail}}</td>
+                <td>{{ item.usuarioModif | userEmail }}</td>
                 <td class="acciones">
-                  <button class="btn-icon btn-edit" (click)="editar(item)" title="Editar">
-                    Editar
-                  </button>
-                  <button class="btn-icon btn-delete" (click)="eliminar(item.idRol!)" title="Eliminar">
-                    Eliminar
-                  </button>
+                  @if (puedeEditar) {
+                    <button class="btn-icon btn-edit" (click)="editar(item)" title="Editar">
+                      Editar
+                    </button>
+                  }
+
+                  @if (puedeEliminar) {
+                    <button class="btn-icon btn-delete" (click)="eliminar(item.idRol!)" title="Eliminar">
+                      Eliminar
+                    </button>
+                  }
                 </td>
               </tr>
             }

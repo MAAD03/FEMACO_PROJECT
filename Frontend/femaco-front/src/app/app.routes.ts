@@ -44,12 +44,7 @@ export const routes: Routes = [
       {
         path: 'rol-opcion',
         loadComponent: () =>
-          import('./components/Seguridad/rol-opcion/rol-opcion').then(m => m.RolOpcion)
-      },
-      {
-        path: 'genero',
-        loadComponent: () =>
-          import('./components/Seguridad/genero/genero').then(m => m.Genero)
+          import('./components/Seguridad/rol-opcion/rol-opcion').then(m => m.RolOpcionComponent)
       },
       {
         path: 'usuario',

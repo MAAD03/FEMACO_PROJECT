@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { UsuariosEmailPipe } from '../../../core/pipes/usuarios-email';
 import { UsuarioService } from '../../../core/services/usuario.service';
+import { ConjuntoMenuService } from '../../../core/services/conjunto-menu.service';
 
 @Component({
   selector: 'app-modulo',
@@ -19,17 +20,33 @@ export class modulo implements OnInit {
   private moduloService = inject(ModuloService);
   private authService = inject(AuthService);
   private usuarioService = inject(UsuarioService);
+  private conjuntoMenuService = inject(ConjuntoMenuService);
+
 
   form!: FormGroup;
 
-  // Signals (reactivos)
   lista = signal<Modulo[]>([]);
   cargando = signal(false);
   mensaje = signal('');
   error = signal('');
-
   editando = false;
   idEditando: number | null = null;
+
+  get permisos() {
+    return this.conjuntoMenuService.getPermisosPorPagina('modulo');
+  }
+
+  get puedeCrear(): boolean {
+    return this.permisos.alta;
+  }
+
+  get puedeEditar(): boolean {
+    return this.permisos.cambio;
+  }
+
+  get puedeEliminar(): boolean {
+    return this.permisos.baja;
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -65,13 +82,21 @@ export class modulo implements OnInit {
     this.resetForm();
     this.cargarLista();
 
-    // Limpia el mensaje de éxito después de 3.5 segundos
     setTimeout(() => {
       this.mensaje.set('');
     }, 3500);
   }
 
   onSubmit(): void {
+    if (this.editando && !this.puedeEditar) {
+      this.error.set('No tienes permiso para modificar');
+      return;
+    }
+    if (!this.editando && !this.puedeCrear) {
+      this.error.set('No tienes permiso para crear');
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -94,23 +119,17 @@ export class modulo implements OnInit {
     this.error.set('');
 
     if (this.editando && this.idEditando) {
-      // Actualizar
       datos.usuarioModif = usuarioId;
       this.moduloService.actualizar(this.idEditando, datos).subscribe({
-        next: () => {
-          this.finalizarOperacion('Módulo actualizado correctamente');
-        },
+        next: () => this.finalizarOperacion('Módulo actualizado correctamente'),
         error: () => {
           this.error.set('Error al actualizar el módulo');
           this.cargando.set(false);
         }
       });
     } else {
-      // Crear
       this.moduloService.crear(datos).subscribe({
-        next: () => {
-          this.finalizarOperacion('Módulo creado correctamente');
-        },
+        next: () => this.finalizarOperacion('Módulo creado correctamente'),
         error: () => {
           this.error.set('Error al crear el módulo');
           this.cargando.set(false);
@@ -120,6 +139,8 @@ export class modulo implements OnInit {
   }
 
   editar(item: Modulo): void {
+    if (!this.puedeEditar) return;        
+
     this.editando = true;
     this.idEditando = item.idModulo!;
     this.form.patchValue({
@@ -130,13 +151,13 @@ export class modulo implements OnInit {
   }
 
   eliminar(id: number): void {
+    if (!this.puedeEliminar) return;     
+
     if (!confirm('¿Está seguro de eliminar este módulo?')) return;
 
     this.cargando.set(true);
     this.moduloService.eliminar(id).subscribe({
-      next: () => {
-        this.finalizarOperacion('Módulo eliminado correctamente');
-      },
+      next: () => this.finalizarOperacion('Módulo eliminado correctamente'),
       error: () => {
         this.error.set('Error al eliminar el módulo');
         this.cargando.set(false);

@@ -7,5 +7,25 @@ import { RolOpcion } from '../models/rol-opcion.model';
 @Injectable({
   providedIn: 'root'
 })
+export class RolOpcionService {
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = inject(API_BASE_URL);
 
-export class RolOpcionService {}
+  private readonly api = `${this.baseUrl}/rolOpcion`;
+
+  buscarTodos(): Observable<RolOpcion[]> {
+    return this.http.get<RolOpcion[]>(`${this.api}/buscar`);
+  }
+
+  crear(rolOpcion: RolOpcion): Observable<RolOpcion> {
+    return this.http.post<RolOpcion>(`${this.api}/crear`, rolOpcion);
+  }
+
+  actualizar(idRolOpcion: number, datos: RolOpcion): Observable<RolOpcion> {
+    return this.http.put<RolOpcion>(`${this.api}/editar/${idRolOpcion}`, datos);
+  }
+
+  eliminar(idRolOpcion: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/eliminar/${idRolOpcion}`);
+  }
+}

@@ -587,7 +587,6 @@ VALUES
 -- =====================================================
 -- 11. INSERTS PARA SUPER USUARIO
 -- =====================================================
-
 -- 1. ROL
 INSERT INTO `rol` (`IdRol`, `Nombre`, `FechaCreacion`, `UsuarioCreacion`, `FechaModif`, `UsuarioModif`)
 VALUES
@@ -641,7 +640,6 @@ VALUES
 
 -- Usuarios y Catálogos Seguridad
 (7, 'Usuarios', 1, 'usuario', 3, NOW(), 1, NOW(), 1),
-(8, 'Géneros', 2, 'genero', 3, NOW(), 1, NOW(), 1),
 
 -- Catálogo
 (9, 'Unidades de Medida', 1, 'unidad-medida', 4, NOW(), 1, NOW(), 1),
@@ -676,7 +674,6 @@ VALUES
 (1, 5, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Roles
 (1, 6, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Roles - Opciones
 (1, 7, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Usuarios
-(1, 8, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Géneros
 (1, 9, 1, 1, 1, NOW(), 1, NOW(), 1),  -- Unidades de Medida
 (1, 10, 1, 1, 1, NOW(), 1, NOW(), 1), -- Artículos
 (1, 11, 1, 1, 1, NOW(), 1, NOW(), 1), -- Áreas de Artículo
@@ -699,5 +696,4 @@ INSERT INTO `usuario`
 VALUES
 (1, 'Admin', 'Sistema', '$2y$10$8MbTCB/6rl4VfDgfUEMa8OQmZ3PVhnZBtIRm0tj3DYCXXUyAzTi4e', 
  'administrador@femaco.com', 0, NULL, NULL, 1, 1, 1, 1, NOW(), 1, NOW(), 1);
- 
  

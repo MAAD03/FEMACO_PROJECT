@@ -6,6 +6,7 @@ import { RolService } from '../../../core/services/rol.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { UsuarioService } from '../../../core/services/usuario.service';
 import { Rol } from '../../../core/models/rol.model';
+import { ConjuntoMenuService } from '../../../core/services/conjunto-menu.service';
 
 @Component({
   selector: 'app-rol',
@@ -20,10 +21,10 @@ export class rol implements OnInit {
   private rolService = inject(RolService);
   private authService = inject(AuthService);
   private usuarioService = inject(UsuarioService);
+  private conjuntoMenuService = inject(ConjuntoMenuService);
 
   form!: FormGroup;
 
-  // Signals (reactivos)
   lista = signal<Rol[]>([]);
   cargando = signal(false);
   mensaje = signal('');
@@ -31,6 +32,22 @@ export class rol implements OnInit {
 
   editando = false;
   idEditando: number | null = null;
+
+  get permisos() {
+    return this.conjuntoMenuService.getPermisosPorPagina('rol');
+  }
+
+  get puedeCrear(): boolean {
+    return this.permisos.alta;
+  }
+
+  get puedeEditar(): boolean {
+    return this.permisos.cambio;
+  }
+
+  get puedeEliminar(): boolean {
+    return this.permisos.baja;
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -66,13 +83,21 @@ export class rol implements OnInit {
     this.resetForm();
     this.cargarLista();
 
-    // Limpia el mensaje de éxito después de 3.5 segundos
     setTimeout(() => {
       this.mensaje.set('');
     }, 3500);
   }
 
   onSubmit(): void {
+    if (this.editando && !this.puedeEditar) {
+      this.error.set('No tienes permiso para modificar');
+      return;
+    }
+    if (!this.editando && !this.puedeCrear) {
+      this.error.set('No tienes permiso para crear');
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -94,7 +119,6 @@ export class rol implements OnInit {
     this.error.set('');
 
     if (this.editando && this.idEditando) {
-      // Actualizar
       datos.usuarioModif = usuarioId;
       this.rolService.actualizar(this.idEditando, datos).subscribe({
         next: () => {
@@ -106,7 +130,6 @@ export class rol implements OnInit {
         }
       });
     } else {
-      // Crear
       this.rolService.crear(datos).subscribe({
         next: () => {
           this.finalizarOperacion('Rol creado correctamente');
@@ -120,15 +143,20 @@ export class rol implements OnInit {
   }
 
   editar(item: Rol): void {
+    if (!this.puedeEditar) return;
+
     this.editando = true;
     this.idEditando = item.idRol!;
     this.form.patchValue({
       nombre: item.nombre,
+      ordenMenu: 1,
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   eliminar(id: number): void {
+    if (!this.puedeEliminar) return;
+
     if (!confirm('¿Está seguro de eliminar este Rol?')) return;
 
     this.cargando.set(true);

@@ -26,8 +26,8 @@ public class Opcion  {
     @Column(name = "OrdenMenu", nullable = false)
     private Integer ordenMenu;
 
-    @Column(name = "Pagina", nullable = false)
-    private Integer pagina;
+    @Column(name = "Pagina", nullable = false, length = 100)
+    private String pagina;
 
     @Column(name = "FechaCreacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;

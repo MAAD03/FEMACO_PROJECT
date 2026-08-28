@@ -4,7 +4,7 @@ import { UsuarioService } from '../services/usuario.service';
 @Pipe({
   name: 'userEmail',
   standalone: true,
-  pure: true
+  pure: false
 })
 export class UsuariosEmailPipe implements PipeTransform {
   private readonly usuarioService = inject(UsuarioService)
