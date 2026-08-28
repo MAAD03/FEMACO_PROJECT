@@ -40,6 +40,7 @@ public class OrdenCompraDetalleService {
             existente.setPrecioUnitario(datosNuevos.getPrecioUnitario());
             existente.setTotal(datosNuevos.getTotal());
             existente.setIdOrdenCompra(datosNuevos.getIdOrdenCompra());
+            existente.setIdEstadoOrdenCompra(datosNuevos.getIdEstadoOrdenCompra());
             existente.setIdArticulo(datosNuevos.getIdArticulo());
 
             existente.setUsuarioModif(datosNuevos.getUsuarioModif());

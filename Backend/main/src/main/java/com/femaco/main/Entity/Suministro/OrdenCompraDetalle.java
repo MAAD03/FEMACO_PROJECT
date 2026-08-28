@@ -48,4 +48,7 @@ public class OrdenCompraDetalle  {
     @Column(name = "IdArticulo")
     private Long idArticulo;
 
+    @Column(name = "IdEstadoOrdenCompra")
+    private Long idEstadoOrdenCompra;
+
 }

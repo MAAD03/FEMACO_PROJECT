@@ -40,9 +40,9 @@ export class Sidebar {
     this.toggleSetValue(this.expandedMenus, menu.idMenu);
   }
 
-  isMenuActive(menu: MenuItem): boolean {
-    return menu.opciones.some(opcion => this.router.isActive(opcion.pagina, false));
-  }
+ isMenuActive(menu: MenuItem): boolean {
+  return menu.opciones.some(opcion => this.router.url.includes(opcion.pagina));
+}
 
   moduloActivo(): ModuloMenu | undefined {
     return this.menuService.getMenuActual().find(modulo =>

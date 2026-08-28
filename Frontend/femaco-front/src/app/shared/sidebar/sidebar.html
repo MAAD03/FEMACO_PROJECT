@@ -41,12 +41,14 @@
                 <ul class="opciones">
                   @for (opcion of menu.opciones; track opcion.idOpcion) {
                     <li>
-                      <a [routerLink]="opcion.pagina"
-                         routerLinkActive="active"
-                         class="opcion-link"
-                         [title]="opcion.nombre">
-                        <span>{{ opcion.nombre }}</span>
-                      </a>
+                      <div class="opcion-link-wrapper" routerLinkActive="active">
+                        <a [routerLink]="opcion.pagina"
+                           routerLinkActive="active"
+                           class="opcion-link"
+                           [title]="opcion.nombre">
+                          <span>{{ opcion.nombre }}</span>
+                        </a>
+                      </div>
                     </li>
                   }
                 </ul>

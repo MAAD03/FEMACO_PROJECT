@@ -295,12 +295,14 @@ CREATE TABLE IF NOT EXISTS `orden_compra_detalle` (
   `Total` DECIMAL(12,2) NOT NULL,
   `IdOrdenCompra` INT NOT NULL,
   `IdArticulo` INT NOT NULL,
+  `IdEstadoOrdenCompra` INT NOT NULL,
   `FechaCreacion` DATETIME NOT NULL,
   `UsuarioCreacion` INT NOT NULL,
   `FechaModif` DATETIME NOT NULL,
   `UsuarioModif` INT NOT NULL,
   PRIMARY KEY (`IdOrdenCompraDetalle`),
   CONSTRAINT `fk_ocd_oc` FOREIGN KEY (`IdOrdenCompra`) REFERENCES `orden_compra`(`IdOrdenCompra`),
+  CONSTRAINT `fk_ocd_estado` FOREIGN KEY (`IdEstadoOrdenCompra`) REFERENCES `estado_orden_compra`(`IdEstadoOrdenCompra`),
   CONSTRAINT `fk_ocd_art` FOREIGN KEY (`IdArticulo`) REFERENCES `articulo`(`IdArticulo`)
 ) ENGINE = InnoDB;
 
