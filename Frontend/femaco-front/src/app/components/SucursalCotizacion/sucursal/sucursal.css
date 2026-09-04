@@ -1,0 +1,128 @@
+:host {
+	display: block;
+}
+
+.form-card {
+	max-width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.sucursal-form-row {
+	grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+	align-items: start;
+}
+
+.sucursal-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.sucursal-item {
+	background: var(--crud-gray-200);
+	border: 1px solid var(--crud-gray-300);
+	border-left: 4px solid var(--crud-primary-dark);
+	border-radius: 8px;
+	padding: 1.15rem 1.25rem;
+	transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.sucursal-item:hover {
+	box-shadow: var(--crud-shadow);
+	transform: translateY(-2px);
+}
+
+.sucursal-item-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	padding-bottom: 0.8rem;
+	border-bottom: 1px solid var(--crud-gray-300);
+}
+
+.sucursal-item-id {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: var(--crud-primary);
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.sucursal-item h4 {
+	margin: 0;
+	color: var(--crud-primary-dark);
+	font-size: 1.1rem;
+	line-height: 1.3;
+	word-break: break-word;
+}
+
+.sucursal-item-actions {
+	display: flex;
+	flex-shrink: 0;
+	gap: 0.25rem;
+}
+
+.sucursal-contact,
+.sucursal-item-details {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.8rem 1rem;
+}
+
+.sucursal-contact {
+	margin: 1rem 0;
+}
+
+.sucursal-contact div,
+.sucursal-detail {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 0.2rem;
+}
+
+.sucursal-contact span,
+.sucursal-detail span {
+	color: var(--crud-primary-dark);
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+
+.sucursal-contact strong,
+.sucursal-detail strong {
+	overflow-wrap: anywhere;
+	font-size: 0.82rem;
+	font-weight: 500;
+}
+
+.sucursal-item-details {
+	padding-top: 0.9rem;
+	border-top: 1px solid var(--crud-gray-300);
+}
+
+@media (max-width: 768px) {
+	.sucursal-form-row,
+	.sucursal-list {
+		grid-template-columns: 1fr !important;
+	}
+
+	.sucursal-item-header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.sucursal-item-actions {
+		justify-content: flex-end;
+	}
+}
+
+@media (max-width: 480px) {
+	.sucursal-contact,
+	.sucursal-item-details {
+		grid-template-columns: 1fr;
+	}
+}

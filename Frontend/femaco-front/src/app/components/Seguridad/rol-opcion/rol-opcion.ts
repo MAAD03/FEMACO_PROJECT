@@ -39,6 +39,28 @@ export class RolOpcionComponent implements OnInit {
   editando = false;
   idEditando: number | null = null;
 
+  permisosPorRol() {
+    const grupos = this.roles()
+      .map((rol) => ({
+        rol,
+        permisos: this.lista().filter((permiso) => permiso.idRol === rol.idRol),
+      }))
+      .filter((grupo) => grupo.permisos.length > 0);
+
+    const sinRol = this.lista().filter(
+      (permiso) => !permiso.idRol || !this.roles().some((rol) => rol.idRol === permiso.idRol),
+    );
+
+    if (sinRol.length > 0) {
+      grupos.push({
+        rol: { idRol: 0, nombre: 'Sin rol asignado' } as Rol,
+        permisos: sinRol,
+      });
+    }
+
+    return grupos;
+  }
+
   get permisos() {
     return this.conjuntoMenuService.getPermisosPorPagina('rol-opcion');
   }

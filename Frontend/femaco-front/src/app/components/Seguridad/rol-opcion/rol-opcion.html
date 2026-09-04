@@ -93,45 +93,53 @@
     } @else if (lista().length === 0) {
       <p class="empty">No hay permisos registrados.</p>
     } @else {
-      <div class="table-responsive">
-        <table class="crud-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Rol</th>
-              <th>Opción</th>
-              <th>Alta</th>
-              <th>Baja</th>
-              <th>Cambio</th>
-              <th class="acciones">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (item of lista(); track item.idRolOpcion) {
-              <tr>
-                <td>{{ item.idRolOpcion }}</td>
-                <td>{{ item.idRol ?? 0 | rolNombre }}</td>
-                <td>{{ item.idOpcion ?? 0 | opcionNombre }}</td>
-                <td>{{ item.alta ? 'Sí' : 'No' }}</td>
-                <td>{{ item.baja ? 'Sí' : 'No' }}</td>
-                <td>{{ item.cambio ? 'Sí' : 'No' }}</td>
-                <td class="acciones">
-                  @if (puedeEditar) {
-                    <button class="btn-icon btn-edit" (click)="editar(item)" title="Editar">
-                      Editar
-                    </button>
-                  }
+      <div class="groups-container">
+        @for (grupo of permisosPorRol(); track grupo.rol.idRol ?? 'sin-rol') {
+          <div class="role-group">
+            <h4 class="role-group-title">
+              {{ grupo.rol.idRol ? (grupo.rol.idRol | rolNombre) : grupo.rol.nombre }}
+            </h4>
 
-                  @if (puedeEliminar) {
-                    <button class="btn-icon btn-delete" (click)="eliminar(item.idRolOpcion!)" title="Eliminar">
-                      Eliminar
-                    </button>
+            <div class="table-responsive">
+              <table class="crud-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Opción</th>
+                    <th>Alta</th>
+                    <th>Baja</th>
+                    <th>Cambio</th>
+                    <th class="acciones">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of grupo.permisos; track item.idRolOpcion) {
+                    <tr>
+                      <td>{{ item.idRolOpcion }}</td>
+                      <td>{{ item.idOpcion ?? 0 | opcionNombre }}</td>
+                      <td>{{ item.alta ? 'Sí' : 'No' }}</td>
+                      <td>{{ item.baja ? 'Sí' : 'No' }}</td>
+                      <td>{{ item.cambio ? 'Sí' : 'No' }}</td>
+                      <td class="acciones">
+                        @if (puedeEditar) {
+                          <button class="btn-icon btn-edit" (click)="editar(item)" title="Editar">
+                            Editar
+                          </button>
+                        }
+
+                        @if (puedeEliminar) {
+                          <button class="btn-icon btn-delete" (click)="eliminar(item.idRolOpcion!)" title="Eliminar">
+                            Eliminar
+                          </button>
+                        }
+                      </td>
+                    </tr>
                   }
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        }
       </div>
     }
   </div>

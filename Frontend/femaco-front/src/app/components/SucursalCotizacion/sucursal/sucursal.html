@@ -1,1 +1,111 @@
-<p>sucursal works!</p>
+<div class="crud-container">
+	<h2 class="crud-title">Sucursales</h2>
+
+	@if (mensaje()) {
+		<div class="alert alert-success">{{ mensaje() }}</div>
+	}
+	@if (error()) {
+		<div class="alert alert-error">{{ error() }}</div>
+	}
+
+	@if (puedeCrear || (editando && puedeEditar)) {
+		<div class="card form-card">
+			<h3 class="card-title">{{ editando ? 'Editar sucursal' : 'Nueva sucursal' }}</h3>
+
+			<form [formGroup]="form" (ngSubmit)="onSubmit()" class="crud-form">
+				<div class="form-row sucursal-form-row">
+					<div class="form-group">
+						<label for="nombre">Nombre *</label>
+						<input id="nombre" type="text" formControlName="nombre" class="form-control" placeholder="Nombre de la sucursal" maxlength="150" />
+						@if (f['nombre'].touched && f['nombre'].invalid) {
+							<div class="error-msg">
+								@if (f['nombre'].errors?.['required']) { El nombre es obligatorio }
+								@if (f['nombre'].errors?.['maxlength']) { Máximo 150 caracteres }
+							</div>
+						}
+					</div>
+
+					<div class="form-group">
+						<label for="idEstadoSucursal">Estado *</label>
+						<select id="idEstadoSucursal" formControlName="idEstadoSucursal" class="form-control">
+							<option [ngValue]="null">Seleccione un estado</option>
+							@for (estado of estados(); track estado.idEstadoSucursal) {
+								<option [ngValue]="estado.idEstadoSucursal">{{ estado.nombre }}</option>
+							}
+						</select>
+						@if (f['idEstadoSucursal'].touched && f['idEstadoSucursal'].invalid) {
+							<div class="error-msg">El estado es obligatorio</div>
+						}
+					</div>
+
+					<div class="form-group">
+						<label for="direccion">Dirección</label>
+						<input id="direccion" type="text" formControlName="direccion" class="form-control" placeholder="Dirección de la sucursal" maxlength="255" />
+						@if (f['direccion'].touched && f['direccion'].invalid) {
+							<div class="error-msg">Máximo 255 caracteres</div>
+						}
+					</div>
+
+					<div class="form-group">
+						<label for="telefono">Teléfono</label>
+						<input id="telefono" type="text" formControlName="telefono" class="form-control" placeholder="Teléfono de la sucursal" maxlength="45" />
+						@if (f['telefono'].touched && f['telefono'].invalid) {
+							<div class="error-msg">Máximo 45 caracteres</div>
+						}
+					</div>
+				</div>
+
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary" [disabled]="cargando() || form.invalid">{{ editando ? 'Actualizar' : 'Guardar' }}</button>
+					@if (editando) {
+						<button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+					}
+				</div>
+			</form>
+		</div>
+	}
+
+	<div class="card table-card">
+		<h3 class="card-title">Listado de sucursales</h3>
+
+		@if (cargando() && lista().length === 0) {
+			<p class="loading">Cargando...</p>
+		} @else if (lista().length === 0) {
+			<p class="empty">No hay sucursales registradas.</p>
+		} @else {
+			<div class="sucursal-list">
+				@for (item of lista(); track item.idSucursal) {
+					<article class="sucursal-item">
+						<div class="sucursal-item-header">
+							<div>
+								<span class="sucursal-item-id">ID {{ item.idSucursal }}</span>
+								<h4>{{ item.nombre }}</h4>
+							</div>
+							<div class="sucursal-item-actions">
+								@if (puedeEditar) {
+									<button class="btn-icon btn-edit" (click)="editar(item)" title="Editar">Editar</button>
+								}
+								@if (puedeEliminar) {
+									<button class="btn-icon btn-delete" (click)="eliminar(item.idSucursal!)" title="Eliminar">Eliminar</button>
+								}
+							</div>
+						</div>
+
+						<div class="sucursal-contact">
+							<div><span>Dirección</span><strong>{{ item.direccion || 'Sin dirección' }}</strong></div>
+							<div><span>Teléfono</span><strong>{{ item.telefono || 'Sin teléfono' }}</strong></div>
+							<div><span>Estado</span><strong>{{ item.idEstadoSucursal | estadoSucursalNombre }}</strong></div>
+						</div>
+
+						<div class="sucursal-item-details">
+							<div class="sucursal-detail"><span>Creación</span><strong>{{ item.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</strong></div>
+							<div class="sucursal-detail"><span>Usuario creación</span><strong>{{ item.usuarioCreacion | userEmail }}</strong></div>
+							<div class="sucursal-detail"><span>Última modificación</span><strong>{{ item.fechaModif | date:'dd/MM/yyyy HH:mm' }}</strong></div>
+							<div class="sucursal-detail"><span>Usuario modificación</span><strong>{{ item.usuarioModif | userEmail }}</strong></div>
+						</div>
+					</article>
+				}
+			</div>
+		}
+	</div>
+</div>
